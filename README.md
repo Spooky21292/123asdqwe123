@@ -111,3 +111,17 @@ python bot.py
 BOT_TOKEN=your_telegram_bot_token
 ```
 3. Перезапусти бота после изменения `.env`.
+
+
+## Если видишь ошибку `greenlet library is required`
+Это значит, что не установилась зависимость `greenlet`, которая нужна SQLAlchemy async.
+
+Сделай в активированном venv:
+```bash
+pip install -r requirements.txt
+```
+
+Если ошибка осталась:
+```bash
+pip install greenlet==3.1.1
+```
