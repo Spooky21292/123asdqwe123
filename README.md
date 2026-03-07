@@ -78,3 +78,12 @@ Main dependencies are defined in `app/build.gradle.kts`:
 - Portrait-oriented main activity.
 - No backend, all data is local on-device via Room.
 - UI emphasizes dark premium gradients and glass-like cards.
+
+
+### Windows note (non-ASCII project paths)
+
+If your project path contains non-ASCII characters (for example `C:\Users\Пользователь\...`), Android Gradle Plugin may fail with:
+`Your project path contains non-ASCII characters...`
+
+This project already includes `android.overridePathCheck=true` in `gradle.properties` to allow sync/build in such paths.
+For maximum stability, it is still recommended to move the project to an ASCII-only directory like `C:\Android\FocusGate`.
