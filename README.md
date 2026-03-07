@@ -64,9 +64,17 @@
 ## Быстрый запуск
 
 ### 1) Подготовь окружение
+Linux/macOS:
 ```bash
 python3.12 -m venv .venv
 source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+Windows (PowerShell):
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
 
@@ -94,3 +102,12 @@ python bot.py
 ## Примечания
 - База: SQLite (`habit_tracker.db`), ORM: SQLAlchemy async;
 - Для reminders бот проверяет привычки каждую минуту и отправляет напоминания в заданное локальное время пользователя.
+
+
+## Если видишь ошибку `BOT_TOKEN is not set`
+1. Убедись, что файл `.env` лежит рядом с `bot.py` (в корне проекта).
+2. Убедись, что в `.env` есть строка без кавычек и пробелов вокруг `=`:
+```env
+BOT_TOKEN=your_telegram_bot_token
+```
+3. Перезапусти бота после изменения `.env`.
