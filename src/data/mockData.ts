@@ -1,0 +1,40 @@
+import { StoredSession } from '../types';
+
+export const seedSessions: StoredSession[] = [
+  {
+    goal: 'Ship hero section redesign',
+    type: 'Creative Sprint',
+    duration: 50,
+    why: 'Direct impact on conversion and launch confidence.',
+    task: 'Finalize glassmorphism cards and CTA hierarchy',
+    completed: true,
+    distractions: 1,
+    reflection: 'Great flow after first 10 minutes.',
+    focusScore: 88,
+    timestamp: new Date(Date.now() - 86400000 * 1).toISOString(),
+  },
+  {
+    goal: 'Draft investor update memo',
+    type: 'Deep Work',
+    duration: 45,
+    why: 'Alignment and trust with stakeholders.',
+    task: 'Write metrics and roadmap section',
+    completed: true,
+    distractions: 0,
+    reflection: 'Very clear thinking window.',
+    focusScore: 94,
+    timestamp: new Date(Date.now() - 86400000 * 3).toISOString(),
+  },
+  {
+    goal: 'Read architecture RFC',
+    type: 'Learning',
+    duration: 30,
+    why: 'Needed before next sprint planning.',
+    task: 'Extract three implementation constraints',
+    completed: false,
+    distractions: 3,
+    reflection: 'Started too late in the day.',
+    focusScore: 54,
+    timestamp: new Date(Date.now() - 86400000 * 5).toISOString(),
+  },
+];
