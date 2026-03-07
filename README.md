@@ -85,5 +85,6 @@ Main dependencies are defined in `app/build.gradle.kts`:
 If your project path contains non-ASCII characters (for example `C:\Users\Пользователь\...`), Android Gradle Plugin may fail with:
 `Your project path contains non-ASCII characters...`
 
-This project already includes `android.overridePathCheck=true` in `gradle.properties` to allow sync/build in such paths.
-For maximum stability, it is still recommended to move the project to an ASCII-only directory like `C:\Android\FocusGate`.
+For maximum stability, move the project to an ASCII-only directory like `C:\Android\FocusGate`.
+
+If you must keep a non-ASCII path, you can add `android.overridePathCheck=true` to `gradle.properties` as a temporary workaround (Android Studio/AGP will show an experimental warning for this flag).
