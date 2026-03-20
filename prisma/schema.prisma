@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = env("DATABASE_PROVIDER")
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -111,13 +111,13 @@ model QuizResult {
 }
 
 model Webinar {
-  id           String                @id @default(cuid())
-  title        String
-  description  String
-  speaker      String
-  date         DateTime
-  meetingUrl   String
-  isPublished  Boolean               @default(false)
+  id            String                 @id @default(cuid())
+  title         String
+  description   String
+  speaker       String
+  date          DateTime
+  meetingUrl    String
+  isPublished   Boolean                @default(false)
   registrations WebinarRegistration[]
 }
 
