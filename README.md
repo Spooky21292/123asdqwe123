@@ -115,8 +115,16 @@ alembic upgrade head
 
 ## Запуск бота
 
+Можно запускать двумя способами:
+
 ```bash
 python -m app.bot
+```
+
+или напрямую файлом:
+
+```bash
+python app/bot.py
 ```
 
 Бот работает в режиме long polling.
