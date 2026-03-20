@@ -1,0 +1,159 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = env("DATABASE_PROVIDER")
+  url      = env("DATABASE_URL")
+}
+
+enum AgeGroup {
+  teen
+  young
+  adult
+}
+
+enum Role {
+  user
+  admin
+}
+
+enum CourseLevel {
+  basic
+  intermediate
+  advanced
+}
+
+model User {
+  id            String          @id @default(cuid())
+  name          String
+  email         String          @unique
+  passwordHash  String
+  ageGroup      AgeGroup
+  role          Role            @default(user)
+  createdAt     DateTime        @default(now())
+  progress      UserProgress[]
+  quizResults   QuizResult[]
+  webinarRegs   WebinarRegistration[]
+}
+
+model Course {
+  id           String       @id @default(cuid())
+  title        String
+  slug         String       @unique
+  description  String
+  ageGroup     AgeGroup
+  level        CourseLevel
+  coverImage   String
+  isPublished  Boolean      @default(false)
+  createdAt    DateTime     @default(now())
+  lessons      Lesson[]
+}
+
+model Lesson {
+  id              String         @id @default(cuid())
+  courseId        String
+  title           String
+  description     String
+  videoUrl        String
+  content         String
+  order           Int
+  durationMinutes Int
+  createdAt       DateTime       @default(now())
+  course          Course         @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  quiz            Quiz?
+  progress        UserProgress[]
+
+  @@unique([courseId, order])
+}
+
+model Quiz {
+  id        String         @id @default(cuid())
+  lessonId  String         @unique
+  title     String
+  lesson    Lesson         @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  questions QuizQuestion[]
+  results   QuizResult[]
+}
+
+model QuizQuestion {
+  id            String @id @default(cuid())
+  quizId        String
+  question      String
+  optionA       String
+  optionB       String
+  optionC       String
+  optionD       String
+  correctAnswer String
+  quiz          Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+}
+
+model UserProgress {
+  id          String   @id @default(cuid())
+  userId      String
+  lessonId    String
+  completed   Boolean  @default(false)
+  completedAt DateTime?
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson      Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+}
+
+model QuizResult {
+  id        String   @id @default(cuid())
+  userId    String
+  quizId    String
+  score     Int
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quiz      Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+}
+
+model Webinar {
+  id           String                @id @default(cuid())
+  title        String
+  description  String
+  speaker      String
+  date         DateTime
+  meetingUrl   String
+  isPublished  Boolean               @default(false)
+  registrations WebinarRegistration[]
+}
+
+model WebinarRegistration {
+  id        String   @id @default(cuid())
+  userId    String
+  webinarId String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  webinar   Webinar  @relation(fields: [webinarId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, webinarId])
+}
+
+model BotFeature {
+  id          String @id @default(cuid())
+  title       String
+  description String
+  icon        String
+}
+
+model Article {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  excerpt     String
+  content     String
+  category    String
+  createdAt   DateTime @default(now())
+  isPublished Boolean  @default(false)
+}
+
+model ContactRequest {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  message   String
+  createdAt DateTime @default(now())
+}
