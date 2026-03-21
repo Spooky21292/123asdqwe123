@@ -1,0 +1,2 @@
+import { ContactForm } from '@/components/forms/contact-form';
+export default function ContactPage() { return <div className="container-page section"><h1 className="text-4xl font-bold">Контакты</h1><p className="mt-4 max-w-2xl text-slate-600">Оставьте заявку, если хотите узнать больше о курсах, партнёрстве или внедрении платформы в школу/вуз.</p><div className="mt-8 max-w-xl rounded-2xl bg-white p-6 shadow-soft"><ContactForm /></div></div>; }

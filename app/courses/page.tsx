@@ -1,0 +1,12 @@
+import Link from 'next/link';
+import { prisma } from '@/lib/prisma';
+import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { ageLabels, levelLabels } from '@/lib/utils';
+
+export const metadata = { title: 'Каталог курсов', description: 'Курсы по финансовой грамотности по возрастным группам и уровням.' };
+
+export default async function CoursesPage({ searchParams }: { searchParams: { ageGroup?: string; level?: string; q?: string } }) {
+  const courses = await prisma.course.findMany({ where: { isPublished: true, ...(searchParams.ageGroup ? { ageGroup: searchParams.ageGroup as any } : {}), ...(searchParams.level ? { level: searchParams.level as any } : {}), ...(searchParams.q ? { OR: [{ title: { contains: searchParams.q, mode: 'insensitive' } }, { description: { contains: searchParams.q, mode: 'insensitive' } }] } : {}) }, include: { lessons: true } });
+  return <div className="container-page section"><h1 className="text-4xl font-bold">Каталог курсов</h1><form className="mt-6 grid gap-4 md:grid-cols-4"><input name="q" placeholder="Поиск по курсам" defaultValue={searchParams.q} className="h-11 rounded-xl border px-3" /><select name="ageGroup" defaultValue={searchParams.ageGroup} className="h-11 rounded-xl border px-3"><option value="">Все возраста</option><option value="teen">Подростки</option><option value="young">Молодые</option><option value="adult">Взрослые</option></select><select name="level" defaultValue={searchParams.level} className="h-11 rounded-xl border px-3"><option value="">Все уровни</option><option value="basic">Базовый</option><option value="intermediate">Средний</option><option value="advanced">Продвинутый</option></select><button className="rounded-xl bg-blue-600 px-4 text-white">Фильтровать</button></form><div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">{courses.length ? courses.map((course)=><Card key={course.id} className="p-6"><Badge>{ageLabels[course.ageGroup]}</Badge><h2 className="mt-4 text-2xl font-semibold">{course.title}</h2><p className="mt-2 text-slate-600">{course.description}</p><p className="mt-4 text-sm text-slate-500">{levelLabels[course.level]} · {course.lessons.length} уроков</p><Link className="mt-5 inline-block text-blue-600 font-semibold" href={`/courses/${course.slug}`}>Подробнее</Link></Card>) : <Card className="p-8">Курсы не найдены. Попробуйте изменить фильтры.</Card>}</div></div>;
+}

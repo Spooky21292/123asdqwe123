@@ -1,0 +1,4 @@
+import { notFound } from 'next/navigation';
+import { prisma } from '@/lib/prisma';
+import { WebinarRegisterButton } from '@/components/forms/webinar-register-button';
+export default async function WebinarPage({ params }: { params: { id: string } }) { const webinar = await prisma.webinar.findUnique({ where: { id: params.id } }); if (!webinar) notFound(); return <div className="container-page section"><h1 className="text-4xl font-bold">{webinar.title}</h1><p className="mt-4 text-slate-600">{webinar.description}</p><div className="mt-6 rounded-2xl bg-white p-6 shadow-soft"><p><b>Дата:</b> {new Date(webinar.date).toLocaleString('ru-RU')}</p><p className="mt-2"><b>Спикер:</b> {webinar.speaker}</p><p className="mt-2"><b>Формат:</b> онлайн-встреча</p><div className="mt-6"><WebinarRegisterButton id={webinar.id} /></div></div></div>; }
